@@ -2,11 +2,11 @@ from aiogram import Bot, Dispatcher, executor, types
 import os
 from dotenv import load_dotenv
 import logging
-from text_smes import text_smes,some_tx
-from text_mov import text_m
-from text_frut import text_fru
-from text_watr import text_waters
-from text_work import text_works
+from text_py.text_smes import text_smes,some_tx
+from text_py.text_mov import text_m
+from text_py.text_frut import text_fru
+from text_py.text_watr import text_waters
+from text_py.text_work import text_works
 from buttons import butn_1,butn_2, back_but, help_command, text_hello, i_dont_know, typ_ze
 
 
@@ -48,7 +48,7 @@ async def frut(call: types.CallbackQuery):
     butn = types.InlineKeyboardButton(text='Назад', callback_data='back_2')
     keybord.add(butn)
     await call.message.delete()
-    with open('frut.txt', 'r', encoding='utf-8') as file:
+    with open('text/frut.txt', 'r', encoding='utf-8') as file:
         text_frut = file.read()
     await call.message.answer(text=text_frut+text_fru, reply_markup=keybord)
 
@@ -57,7 +57,7 @@ async def smes(call: types.CallbackQuery):
     keybord = types.InlineKeyboardMarkup()
     butn = types.InlineKeyboardButton(text='Назад',callback_data='back_1')
     keybord.add(butn)
-    with open('sm.txt', 'r', encoding='utf-8') as file:
+    with open('text/sm.txt', 'r', encoding='utf-8') as file:
         text_smesi = file.read()
     await call.message.delete()
     await call.message.answer(text_smesi+'\n'+some_tx+text_smes,
@@ -91,20 +91,26 @@ async def back_2(call: types.CallbackQuery):
 @dp.callback_query_handler()
 async def mov(call: types.CallbackQuery):
     if call.data == 'moving':
-        with open('mov.txt', 'r', encoding='utf-8') as file:
+        with open('text/mov.txt', 'r', encoding='utf-8') as file:
             text_mov = file.read()
         await call.message.delete()
         await call.message.answer(text=text_mov+text_m, reply_markup=back_but())
+    
+    
     elif call.data == 'water':
-        with open('water.txt', 'r', encoding='utf-8') as file:
+        with open('text/water.txt', 'r', encoding='utf-8') as file:
             text_water = file.read()
         await call.message.delete()
         await call.message.answer(text=text_water+text_waters, reply_markup=back_but())
+    
+    
     elif call.data == 'work':
-        with open('work.txt', 'r', encoding='utf-8') as file:
+        with open('text/work.txt', 'r', encoding='utf-8') as file:
             text_work = file.read()
         await call.message.delete()
         await call.message.answer(text=text_work+text_works, reply_markup=back_but())
+    
+    
     elif call.data == 'back_3':
         await call.message.delete()
         await call.message.answer(text=text_hello, reply_markup=butn_1())
